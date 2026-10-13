@@ -1,7 +1,7 @@
 {
 	"name": "sigrun-ext-tool-search",
 	"version": "0.1.0",
-	"description": "Tool-search extension for sigrun (pi-durable): the `tool_search` tool over deferred MCP tools — thin wrapper over pi-durable's own createToolSearchExtension",
+	"description": "Tool-search extension for sigrun (pi-durable): the `tool_search` tool over deferred MCP tools \u2014 thin wrapper over pi-durable's own createToolSearchExtension",
 	"type": "module",
 	"engines": {
 		"node": ">=22.19.0"
@@ -34,5 +34,14 @@
 		"tsx": "^4.23.15",
 		"typescript": "^7.0.2",
 		"vitest": "^5.0.3"
-	}
+	},
+	"license": "MIT",
+	"repository": {
+		"type": "github",
+		"url": "git+https://github.com/sigrun-ai/sigrun-ext-tool-search.git"
+	},
+	"bugs": {
+		"url": "https://github.com/sigrun-ai/sigrun-ext-tool-search/issues"
+	},
+	"homepage": "https://github.com/sigrun-ai/sigrun-ext-tool-search#readme"
 }
