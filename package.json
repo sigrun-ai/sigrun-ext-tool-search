@@ -1,0 +1,38 @@
+{
+	"name": "sigrun-ext-tool-search",
+	"version": "0.1.0",
+	"description": "Tool-search extension for sigrun (pi-durable): the `tool_search` tool over deferred MCP tools — thin wrapper over pi-durable's own createToolSearchExtension",
+	"type": "module",
+	"engines": {
+		"node": ">=22.19.0"
+	},
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"test": "vitest run",
+		"typecheck": "tsc --noEmit",
+		"build": "tsc -p tsconfig.build.json",
+		"prepare": "npm run build"
+	},
+	"dependencies": {
+		"@earendil-works/chord": "^1.0.4",
+		"@earendil-works/pi-ai": "^1.0.4",
+		"@earendil-works/pi-durable": "1.2.0"
+	},
+	"devDependencies": {
+		"@types/node": "^26.6.4",
+		"sigrun-ext-mcp": "file:../sigrun-ext-mcp",
+		"tsx": "^4.23.15",
+		"typescript": "^7.0.2",
+		"vitest": "^5.0.3"
+	}
+}
