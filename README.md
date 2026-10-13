@@ -76,6 +76,23 @@ tools-callable tools and never sees `tool_search` (`callers: ["model"]`)
 registered on the one extension this package installs) mirrors
 sigrun-ext-codemode's choice for review consistency.
 
+## Package replacement semantics (slice 4)
+
+Replace this package by not installing it and installing yours: the
+surface is one tool named exactly `tool_search` (plus the companion
+`tool_search_notice` section), so a per-name replacement is trivial —
+uninstall ours, install the replacement under the same tool name. Do NOT
+co-install: pi-durable resolves cross-extension duplicate tool names
+last-selected-wins, so a co-installed replacement silently shadows the
+original. Sigrun's extension loader now makes the shadowing visible at
+boot (it `console.warn`s once per duplicate tool name, naming the
+extensions and the last-wins resolution), but the warning changes nothing:
+last-wins stands. Replace, don't co-install.
+
+(Not to be confused with "Replacement semantics — what the write means"
+above: that section is about the `modelTools` write this package performs;
+this one is about replacing this package itself.)
+
 ## Dependencies
 
 - `@earendil-works/pi-durable` 1.2.0: the extension itself and the
