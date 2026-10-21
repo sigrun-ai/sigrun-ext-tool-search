@@ -26,7 +26,7 @@ import {
 	type ModelRef,
 } from "@earendil-works/pi-durable";
 import { openNodeSqliteStorage } from "@earendil-works/pi-durable/storage/sqlite/node";
-import { MCP_CONFIG_ENV, createMcpExtension, type McpWiring } from "sigrun-ext-mcp";
+import { MCP_CONFIG_ENV, createMcpExtension, type McpWiring } from "@sigrun/ext-mcp";
 import { createToolSearchWiring } from "../src/index.js";
 
 /** Configure the factories' config store via the env override. */
