@@ -1,4 +1,4 @@
-# sigrun-ext-tool-search
+# @sigrun/ext-tool-search
 
 The tool-search extension for sigrun (pi-durable): the `tool_search`
 tool — BM25 search over DEFERRED tool metadata that loads the matches
@@ -95,9 +95,10 @@ this one is about replacing this package itself.)
 
 ## Dependencies
 
-- `@earendil-works/pi-durable` 1.2.0: the extension itself and the
-  deferred/modelTools machinery.
-- `sigrun-ext-mcp` (devDependency, `file:../sigrun-ext-mcp`): NOT used
+- `@earendil-works/pi-durable` (peer, exact `1.3.0`): the extension
+  itself and the deferred/modelTools machinery.
+- `@sigrun/ext-mcp` (devDependency, `file:../sigrun-ext-mcp` until
+  Task 8 publishes it; then `0.1.0`): NOT used
   by the shipped code — only by the test suite, which drives deferred
   tools through the REAL mcp extension (Task 4's verified
   `exposure: "deferred"` config shape) so the e2e covers exactly the
