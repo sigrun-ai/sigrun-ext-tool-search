@@ -1,6 +1,6 @@
 {
 	"name": "@sigrun/ext-tool-search",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Tool-search extension for sigrun (pi-durable): the `tool_search` tool over deferred MCP tools \u2014 thin wrapper over pi-durable's own createToolSearchExtension",
 	"type": "module",
 	"engines": {

@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-10-27
+### Fixed
+- The e2e harness now drives the real `@sigrun/ext-mcp` per-user catalog
+  contract: catalog servers are declared `credentials: "shared"` and the
+  MCP extension receives a host that names the acting user, matching how
+  the extension is wired in production. Test-only — `test/` is not
+  published, so the package contents are unchanged from 0.1.0.
+
+### Changed
+- Re-released through CI trusted publishing; this version carries SLSA
+  provenance.
+
 ## [Unreleased]
 
 ## [0.1.0] - 2026-10-13

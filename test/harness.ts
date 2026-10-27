@@ -27,7 +27,45 @@ import {
 } from "@earendil-works/pi-durable";
 import { openNodeSqliteStorage } from "@earendil-works/pi-durable/storage/sqlite/node";
 import { MCP_CONFIG_ENV, createMcpExtension, type McpWiring } from "@sigrun/ext-mcp";
+import type { SigrunHost } from "@sigrun/ext-mcp";
 import { createToolSearchWiring } from "../src/index.js";
+
+/** The acting user these fixtures run as. Shared catalog tools fail closed
+ * for an unidentified caller, so the MCP extension needs a host that names
+ * one (its access check reads host.identity.actingUser). */
+const TEST_USER = "synthetic-user";
+
+/** A minimal structural sigrun host: enough for the MCP extension's shared
+ * catalog path (identity + per-user settings). Shared servers connect
+ * directly, so services.connect is never reached here. */
+function createTestHost(): SigrunHost {
+	const settings = new Map<string, Record<string, unknown>>();
+	return {
+		tools: { setUserTools: () => undefined },
+		services: {
+			connect: () => {
+				throw new Error("services.connect is not used by shared servers");
+			},
+		},
+		stores: {
+			user: (user) => ({
+				secrets: {
+					get: async () => undefined,
+					set: async () => undefined,
+					delete: async () => undefined,
+				},
+				settings: {
+					get: async () => ({ ...(settings.get(user) ?? {}) }),
+					set: async (value) => {
+						settings.set(user, { ...value });
+					},
+				},
+				paths: { data: "/tmp/data", state: "/tmp/state", cache: "/tmp/cache" },
+			}),
+		},
+		identity: { actingUser: async () => TEST_USER },
+	};
+}
 
 /** Configure the factories' config store via the env override. */
 export function stubConfigPath(dir: string): string {
@@ -38,7 +76,19 @@ export async function writeConfig(
 	path: string,
 	servers: Record<string, unknown>,
 ): Promise<void> {
-	await writeFile(path, JSON.stringify({ servers }), "utf8");
+	// Catalog servers default to per-user credentials; these fixtures
+	// exercise the system-child (shared) shape, so declare it explicitly.
+	const shared = Object.fromEntries(
+		Object.entries(servers).map(([name, server]) => [
+			name,
+			{
+				credentials: "shared",
+				sharedAuthority: "Synthetic shared test authority",
+				...(server as Record<string, unknown>),
+			},
+		]),
+	);
+	await writeFile(path, JSON.stringify({ servers: shared }), "utf8");
 }
 
 export interface OpenedHarness {
@@ -62,7 +112,7 @@ export async function openToolSearchHarness(
 	process.env[MCP_CONFIG_ENV] = stubConfigPath(dir);
 	let mcpWiring: McpWiring;
 	try {
-		mcpWiring = createMcpExtension();
+		mcpWiring = createMcpExtension(createTestHost());
 	} finally {
 		if (prior === undefined) delete process.env[MCP_CONFIG_ENV];
 		else process.env[MCP_CONFIG_ENV] = prior;
