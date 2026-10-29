@@ -95,7 +95,7 @@ this one is about replacing this package itself.)
 
 ## Dependencies
 
-- `@earendil-works/pi-durable` (peer, exact `1.3.0`): the extension
+- `@earendil-works/pi-durable` (peer, `1.3.0 || 1.4.0`): the extension
   itself and the deferred/modelTools machinery.
 - `@sigrun/ext-mcp` (devDependency, `file:../sigrun-ext-mcp` until
   Task 8 publishes it; then `0.1.0`): NOT used
