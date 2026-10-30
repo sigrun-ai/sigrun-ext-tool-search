@@ -1,7 +1,7 @@
 {
 	"name": "@sigrun/ext-tool-search",
 	"version": "0.1.2",
-	"description": "Tool-search extension for sigrun (pi-durable): the `tool_search` tool over deferred MCP tools \u2014 thin wrapper over pi-durable's own createToolSearchExtension",
+	"description": "Tool-search extension for sigrun (pi-durable): the `tool_search` tool over deferred MCP tools — thin wrapper over pi-durable's own createToolSearchExtension",
 	"type": "module",
 	"engines": {
 		"node": ">=22.19.0"
@@ -30,9 +30,9 @@
 		"@earendil-works/pi-durable": "1.3.0 || 1.4.0"
 	},
 	"devDependencies": {
-		"@earendil-works/chord": "1.3.0",
-		"@earendil-works/pi-ai": "1.3.0",
-		"@earendil-works/pi-durable": "1.3.0",
+		"@earendil-works/chord": "1.4.0",
+		"@earendil-works/pi-ai": "1.4.0",
+		"@earendil-works/pi-durable": "1.4.0",
 		"@sigrun/ext-mcp": "file:../sigrun-ext-mcp",
 		"@types/node": "^26.6.4",
 		"tsx": "^4.23.15",
