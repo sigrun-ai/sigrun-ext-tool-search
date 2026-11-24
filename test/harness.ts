@@ -86,6 +86,14 @@ function createTestHost(): SigrunHost {
 			}),
 		},
 		identity: { actingUser: async () => TEST_USER },
+		// Unused by these fixtures (nothing posts a notice or lists users),
+		// but part of the host contract the extension's types see.
+		notices: {
+			post: async () => ({ id: "notice-1" }),
+		},
+		users: {
+			list: async () => [],
+		},
 	};
 }
 
