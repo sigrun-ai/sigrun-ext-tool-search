@@ -42,12 +42,34 @@ function createTestHost(): SigrunHost {
 	const settings = new Map<string, Record<string, unknown>>();
 	return {
 		tools: { setUserTools: () => undefined },
+		// ext-mcp declares its settings at factory time and reads the system
+		// file through the checked read; these fixtures keep it empty.
+		settings: {
+			declare: () => ({
+				get: async () => ({}),
+				effective: async () => ({}),
+				user: () => ({ get: async () => ({}) }),
+			}),
+		},
 		services: {
 			connect: () => {
 				throw new Error("services.connect is not used by shared servers");
 			},
 		},
 		stores: {
+			// The extension's own scoped system settings/secrets (the mcp.servers
+			// fold reads them at factory time); fixtures keep both empty.
+			settings: {
+				get: async () => ({ ...(settings.get("__system__") ?? {}) }),
+				set: async (value) => {
+					settings.set("__system__", { ...value });
+				},
+			},
+			secrets: {
+				get: async () => undefined,
+				set: async () => undefined,
+				delete: async () => undefined,
+			},
 			user: (user) => ({
 				secrets: {
 					get: async () => undefined,
@@ -112,7 +134,7 @@ export async function openToolSearchHarness(
 	process.env[MCP_CONFIG_ENV] = stubConfigPath(dir);
 	let mcpWiring: McpWiring;
 	try {
-		mcpWiring = createMcpExtension(createTestHost());
+		mcpWiring = await createMcpExtension(createTestHost());
 	} finally {
 		if (prior === undefined) delete process.env[MCP_CONFIG_ENV];
 		else process.env[MCP_CONFIG_ENV] = prior;
